@@ -2,6 +2,7 @@ package com.example.dribbbleapiservicedemo.retrofit;
 
 import com.example.dribbbleapiservicedemo.model.Comment;
 import com.example.dribbbleapiservicedemo.model.Shot;
+import com.example.dribbbleapiservicedemo.model.ShotLikeUser;
 import com.example.dribbbleapiservicedemo.model.TokenData;
 import com.example.dribbbleapiservicedemo.model.User;
 
@@ -29,4 +30,7 @@ public interface DribbbleApiService {
 
     @GET("shots/{shot_id}/comments")
     Observable<List<Comment>> getComments(@Path("shot_id") int shotId, @Query("page") int page, @Query("per_page") int perPage);
+
+    @GET("shots/{shot_id}/likes")
+    Observable<List<ShotLikeUser>> getShotLikeUsers(@Path("shot_id") int shotId, @Query("page") int page, @Query("per_page") int perPage);
 }

@@ -21,7 +21,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.OAuthWebActivity" />
-        <activity android:name=".ui.ShotDetailActivity"></activity>
+        <activity android:name=".ui.ShotDetailActivity" />
+        <activity
+            android:name=".ui.ShotLikeUserActivity"
+            android:label="@string/title_activity_shot_like_user"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
