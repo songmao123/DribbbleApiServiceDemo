@@ -8,9 +8,9 @@ import android.os.Parcelable;
  */
 public class ShotLikeUser implements Parcelable {
 
-    private long id;
-    private String created_at;
-    private User user;
+    public long id;
+    public String created_at;
+    public User user;
 
     protected ShotLikeUser(Parcel in) {
         this.id = in.readLong();

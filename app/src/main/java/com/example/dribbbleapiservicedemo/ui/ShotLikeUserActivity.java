@@ -1,34 +1,115 @@
 package com.example.dribbbleapiservicedemo.ui;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.dribbbleapiservicedemo.R;
+import com.example.dribbbleapiservicedemo.adapter.QuickShotLikeUserAdapter;
 import com.example.dribbbleapiservicedemo.databinding.ActivityShotLikeUserBinding;
+import com.example.dribbbleapiservicedemo.model.Shot;
+import com.example.dribbbleapiservicedemo.model.ShotLikeUser;
+import com.example.dribbbleapiservicedemo.retrofit.DribbbleApiServiceFactory;
+import com.example.dribbbleapiservicedemo.utils.Constants;
 
-public class ShotLikeUserActivity extends BaseActivity {
+import java.util.ArrayList;
+import java.util.List;
 
-    private ActivityShotLikeUserBinding mBingding;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
+
+public class ShotLikeUserActivity extends BaseActivity implements BaseQuickAdapter.RequestLoadMoreListener {
+
+    public static final String SHOT_INFO = "shot";
+    private ActivityShotLikeUserBinding mBinding;
+    private List<ShotLikeUser> mShotLikeUsers = new ArrayList<>();
+    private Shot mShot;
+    private int startPage = 1;
+    private QuickShotLikeUserAdapter mQuickAdapter;
+    private Subscription mSubscribe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBingding = DataBindingUtil.setContentView(this, R.layout.activity_shot_like_user);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_shot_like_user);
 
         getIntentParams();
         initEvents();
+        initRecyclerView();
+        getShotLikeUsers();
     }
 
     private void getIntentParams() {
-
+        Intent intent = getIntent();
+        if (intent != null) {
+            mShot = intent.getParcelableExtra(SHOT_INFO);
+        }
     }
 
     private void initEvents() {
-        setSupportActionBar(mBingding.toolbar);
+        if (mShot != null) {
+            mBinding.setShot(mShot);
+        }
+        setSupportActionBar(mBinding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    private void initRecyclerView() {
+        RecyclerView recyclerView = mBinding.shotLikeUserContainer.recyclerView;
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        mQuickAdapter = new QuickShotLikeUserAdapter(R.layout.item_shot_like_user, mShotLikeUsers);
+        mQuickAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+        mQuickAdapter.isFirstOnly(true);
+        mQuickAdapter.setOnLoadMoreListener(this);
+        mQuickAdapter.openLoadMore(Constants.PER_PAGE_COUNT, true);
+        mQuickAdapter.setLoadingView(getLayoutInflater().inflate(R.layout.layout_loading_progress,
+                (ViewGroup) recyclerView.getParent(), false));
+        recyclerView.setAdapter(mQuickAdapter);
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        startPage++;
+        getShotLikeUsers();
+    }
+
+    private void getShotLikeUsers() {
+        mSubscribe = DribbbleApiServiceFactory.createDribbbleService(null, Constants.DRIBBBLE_ACCESS_TOKEN)
+            .getShotLikeUsers(mShot.id, startPage, Constants.PER_PAGE_COUNT)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Action1<List<ShotLikeUser>>() {
+                @Override
+                public void call(List<ShotLikeUser> shotLikeUsers) {
+                    mBinding.shotLikeUserContainer.loadingContainer.setVisibility(View.GONE);
+                    if (startPage == 1) {
+                        mShotLikeUsers.clear();
+                        mShotLikeUsers.addAll(shotLikeUsers);
+                        mQuickAdapter.notifyDataSetChanged();
+                    } else {
+                        if (shotLikeUsers == null || shotLikeUsers.size() < 1) {
+                            mQuickAdapter.notifyDataChangedAfterLoadMore(false);
+                            View view = getLayoutInflater().inflate(R.layout.layout_no_more_data,
+                                    (ViewGroup) mBinding.shotLikeUserContainer.recyclerView.getParent(), false);
+                            mQuickAdapter.addFooterView(view);
+                        } else {
+                            mQuickAdapter.notifyDataChangedAfterLoadMore(shotLikeUsers, true);
+                        }
+                    }
+                }
+            });
     }
 
     @Override
@@ -42,4 +123,11 @@ public class ShotLikeUserActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mSubscribe != null) {
+            mSubscribe.unsubscribe();
+        }
+    }
 }

@@ -9,7 +9,7 @@
     android:paddingTop="10dp">
 
     <ImageView
-        android:id="@+id/avatarIv"
+        android:id="@+id/avatar_iv"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/ic_account_circle_grey" />
@@ -27,7 +27,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/nameTv"
+                android:id="@+id/name_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -38,7 +38,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/likeCountTv"
+                android:id="@+id/likes_count_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -51,12 +51,40 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/create_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="07/14/2016 10:27 PM"
+                android:textColor="@color/colorText_03"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/location_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:drawableLeft="@drawable/ic_marker_grey"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="Salem, MA"
+                android:textColor="@color/colorText_03"
+                android:textSize="12sp" />
+        </LinearLayout>
+
         <TextView
-            android:id="@+id/commentContentTv"
+            android:id="@+id/bio_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="The treatment on the leaves, in the background is sickkk. Very cool feel to this."
+            android:text="Minneapolis, MN design, illustration, logos, branding, identity, print, ui, digital"
             android:textColor="@color/colorText_02"
             android:textSize="14sp" />
 
@@ -68,25 +96,25 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/timeTv"
+                android:id="@+id/followers_count_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="about 9 min ago"
+                android:text="100 followers"
                 android:textColor="@color/colorText_03"
                 android:textSize="12sp" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="10dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@color/colorText_03" />
 
             <TextView
-                android:id="@+id/likeTv"
+                android:id="@+id/shots_count_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="Like?"
+                android:text="214 shots"
                 android:textColor="@color/colorText_03"
                 android:textSize="12sp" />
 

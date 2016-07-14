@@ -61,6 +61,18 @@ public class ShotDetailActivity extends AppCompatActivity implements BaseQuickAd
         mBinding.setShot(mShot);
         setSupportActionBar(mBinding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mBinding.contentContainer.likeCountTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mShot != null) {
+                    Intent intent = new Intent(ShotDetailActivity.this, ShotLikeUserActivity.class);
+                    intent.putExtra(ShotLikeUserActivity.SHOT_INFO, mShot);
+                    startActivity(intent);
+                }
+            }
+        });
+
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         mBinding.fab.setOnClickListener(new View.OnClickListener() {
             @Override

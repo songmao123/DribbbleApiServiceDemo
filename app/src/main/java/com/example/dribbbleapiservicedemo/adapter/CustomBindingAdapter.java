@@ -1,6 +1,7 @@
 package com.example.dribbbleapiservicedemo.adapter;
 
 import android.databinding.BindingAdapter;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -18,11 +19,18 @@ public class CustomBindingAdapter {
     @BindingAdapter({"bind:imageUrl", "bind:type"})
     public static void loadImage(ImageView imageView, String url, int type) {
         if (type == 1) {
-            Picasso.with(imageView.getContext()).load(url)
-                    .transform(new CircleTransform()).placeholder(R.drawable.ic_account_circle_white)
-                    .error(R.drawable.ic_account_circle_white).into(imageView);
+            try {
+                Picasso.with(imageView.getContext()).load(url)
+                        .transform(new CircleTransform()).placeholder(R.drawable.ic_account_circle_white)
+                        .error(R.drawable.ic_account_circle_white).into(imageView);
+            } catch (Exception e) {
+                imageView.setImageResource(R.drawable.ic_account_circle_white);
+            }
+//            Glide.with(imageView.getContext()).load(url).
+//                    bitmapTransform(new CropCircleTransformation(imageView.getContext()))
+//                    .placeholder(R.drawable.ic_account_circle_white).into(imageView);
         } else {
-            Glide.with(imageView.getContext()).load(url).into(imageView);
+            Glide.with(imageView.getContext()).load(url).placeholder(R.drawable.test).into(imageView);
         }
 
     }
