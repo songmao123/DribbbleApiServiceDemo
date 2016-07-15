@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity
 
         mShotsAdapter = new QuickShotsAdapter(R.layout.item_shots, mShots);
         mShotsAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-        mShotsAdapter.isFirstOnly(false);
+        mShotsAdapter.isFirstOnly(true);
         mShotsAdapter.setOnLoadMoreListener(this);
         mShotsAdapter.openLoadMore(Constants.PER_PAGE_COUNT, true);
         mShotsAdapter.setOnRecyclerViewItemClickListener(this);

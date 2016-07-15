@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.dribbbleapiservicedemo.R;
@@ -23,6 +24,7 @@ import com.example.dribbbleapiservicedemo.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -70,6 +72,23 @@ public class ShotDetailActivity extends AppCompatActivity implements BaseQuickAd
                     intent.putExtra(ShotLikeUserActivity.SHOT_INFO, mShot);
                     startActivity(intent);
                 }
+            }
+        });
+
+        mBinding.contentContainer.collapseTv.post(new Runnable() {
+            @Override
+            public void run() {
+                int lineCount = mBinding.contentContainer.expandableTv.getLineCount();
+                mBinding.contentContainer.collapseTv.setVisibility(lineCount >= 5 ? View.VISIBLE : View.GONE);
+            }
+        });
+
+        mBinding.contentContainer.collapseTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBinding.contentContainer.expandableTv.toggle();
+                mBinding.contentContainer.collapseTv.setText(mBinding.contentContainer.expandableTv.isExpanded()
+                        ? R.string.expand : R.string.collapse);
             }
         });
 
@@ -126,6 +145,14 @@ public class ShotDetailActivity extends AppCompatActivity implements BaseQuickAd
                         } else {
                             mCommentsAdapter.notifyDataChangedAfterLoadMore(comments, true);
                         }
+                    }
+                }
+            }, new Action1<Throwable>() {
+                @Override
+                public void call(Throwable throwable) {
+                    if (throwable instanceof TimeoutException) {
+                        Toast.makeText(ShotDetailActivity.this, "collect server time out ...", Toast.LENGTH_SHORT).show();
+                        getCommentDatas();
                     }
                 }
             });

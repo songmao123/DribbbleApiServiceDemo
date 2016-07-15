@@ -73,7 +73,9 @@
                 android:layout_marginLeft="20dp"
                 android:drawableLeft="@drawable/ic_marker_grey"
                 android:drawablePadding="3dp"
+                android:ellipsize="end"
                 android:gravity="center"
+                android:maxLines="1"
                 android:text="Salem, MA"
                 android:textColor="@color/colorText_03"
                 android:textSize="12sp" />

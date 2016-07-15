@@ -1,15 +1,12 @@
 package com.example.dribbbleapiservicedemo.adapter;
 
 import android.databinding.BindingAdapter;
-import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.dribbbleapiservicedemo.R;
 import com.example.dribbbleapiservicedemo.utils.CircleTransform;
 import com.squareup.picasso.Picasso;
-
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by sqsong on 16-7-10.
@@ -22,6 +19,7 @@ public class CustomBindingAdapter {
             try {
                 Picasso.with(imageView.getContext()).load(url)
                         .transform(new CircleTransform()).placeholder(R.drawable.ic_account_circle_white)
+                        .placeholder(R.drawable.ic_account_circle_white)
                         .error(R.drawable.ic_account_circle_white).into(imageView);
             } catch (Exception e) {
                 imageView.setImageResource(R.drawable.ic_account_circle_white);
@@ -30,7 +28,7 @@ public class CustomBindingAdapter {
 //                    bitmapTransform(new CropCircleTransformation(imageView.getContext()))
 //                    .placeholder(R.drawable.ic_account_circle_white).into(imageView);
         } else {
-            Glide.with(imageView.getContext()).load(url).placeholder(R.drawable.test).into(imageView);
+            Glide.with(imageView.getContext()).load(url).placeholder(R.drawable.test).centerCrop().into(imageView);
         }
 
     }

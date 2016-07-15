@@ -28,23 +28,23 @@
 
             <ImageView
                 android:id="@+id/shot_image_iv"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:scaleType="center"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/test"
                 app:imageUrl="@{shot.images.normal}"
-                app:type="@{2}"
-                android:src="@drawable/test" />
+                app:type="@{2}" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="60dp"
                 android:layout_marginLeft="10dp">
 
                 <TextView
                     android:id="@+id/shot_name_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="1"
@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="5dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 

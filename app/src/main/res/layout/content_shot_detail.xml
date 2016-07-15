@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="android.text.TextUtils" />
+
         <import type="com.example.dribbbleapiservicedemo.utils.CommonUtils" />
 
         <import type="com.example.dribbbleapiservicedemo.utils.DateUtils" />
@@ -28,12 +30,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_scrollFlags="scroll|enterAlways">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -86,6 +93,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <TextView
@@ -98,27 +106,52 @@
                             android:textSize="14sp"
                             android:textStyle="italic" />
 
-                        <TextView
-                            android:id="@+id/likeCountTv"
+                        <com.andexert.library.RippleView
+                            rv_centered="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text='@{String.valueOf(shot.comments_count + " likes")}'
-                            android:textColor="@color/colorText_03"
-                            android:textSize="14sp" />
+                            android:padding="5dp">
+
+                            <TextView
+                                android:id="@+id/likeCountTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text='@{String.valueOf(shot.likes_count + " likes")}'
+                                android:textColor="@color/colorText_03"
+                                android:textSize="14sp" />
+                        </com.andexert.library.RippleView>
 
                     </LinearLayout>
                 </LinearLayout>
-
             </LinearLayout>
 
-            <TextView
+            <com.example.dribbbleapiservicedemo.view.ExpandableTextView
+                android:id="@+id/expandable_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:maxLines="5"
                 android:text="@{CommonUtils.noTrailingwhiteLines(Html.fromHtml(shot.description))}"
                 android:textColor="@color/colorText_02"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="@{TextUtils.isEmpty(shot.description) ? View.GONE : View.VISIBLE}"
+                app:animation_duration="500" />
+
+            <TextView
+                android:id="@+id/collapse_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:paddingBottom="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp"
+                android:text="@string/expand"
+                android:textColor="#60AFDF"
+                android:textSize="14sp"
+                android:visibility="visible" />
 
             <View
                 style="@style/Style_Line"

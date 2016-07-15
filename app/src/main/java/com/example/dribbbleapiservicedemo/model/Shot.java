@@ -28,7 +28,7 @@ public class Shot implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
         dest.writeString(this.title);
-        dest.writeString(this.description);
+        dest.writeString(this.description == null ? "" : this.description);
         dest.writeInt(this.width);
         dest.writeInt(this.height);
         dest.writeParcelable(this.images, flags);

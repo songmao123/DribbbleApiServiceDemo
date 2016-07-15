@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.dribbbleapiservicedemo.R;
@@ -21,6 +22,7 @@ import com.example.dribbbleapiservicedemo.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -107,6 +109,14 @@ public class ShotLikeUserActivity extends BaseActivity implements BaseQuickAdapt
                         } else {
                             mQuickAdapter.notifyDataChangedAfterLoadMore(shotLikeUsers, true);
                         }
+                    }
+                }
+            }, new Action1<Throwable>() {
+                @Override
+                public void call(Throwable throwable) {
+                    if (throwable instanceof TimeoutException) {
+                        Toast.makeText(ShotLikeUserActivity.this, "collect server time out ...", Toast.LENGTH_SHORT).show();
+                        getShotLikeUsers();
                     }
                 }
             });

@@ -33,7 +33,7 @@ public class User implements Parcelable {
         dest.writeString(this.username);
         dest.writeString(this.html_url);
         dest.writeString(this.avatar_url);
-        dest.writeString(this.bio);
+        dest.writeString(this.bio == null ? "" : this.bio);
         dest.writeString(this.shots_url);
         dest.writeString(this.location);
     }
