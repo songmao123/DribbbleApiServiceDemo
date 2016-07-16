@@ -33,4 +33,7 @@ public interface DribbbleApiService {
 
     @GET("shots/{shot_id}/likes")
     Observable<List<ShotLikeUser>> getShotLikeUsers(@Path("shot_id") int shotId, @Query("page") int page, @Query("per_page") int perPage);
+
+    @GET("users/{user_id}/shots")
+    Observable<List<Shot>> getUserShots(@Path("user_id") int shotId, @Query("page") int page, @Query("per_page") int perPage);
 }

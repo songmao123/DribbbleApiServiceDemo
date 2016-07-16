@@ -1,5 +1,6 @@
 package com.example.dribbbleapiservicedemo.adapter;
 
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 

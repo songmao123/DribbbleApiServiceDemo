@@ -20,4 +20,7 @@
     <color name="colorText_02">#666666</color>
     <color name="colorText_03">#888888</color>
     <color name="colorText_04">#60AFDF</color>
+
+    <color name="colorBackground">#ECEFF1</color>
+    <color name="colorRipple">#DBDBDB</color>
 </resources>

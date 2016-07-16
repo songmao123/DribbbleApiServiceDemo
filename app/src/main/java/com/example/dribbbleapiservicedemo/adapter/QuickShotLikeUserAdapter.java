@@ -1,7 +1,10 @@
 package com.example.dribbbleapiservicedemo.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -9,6 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.dribbbleapiservicedemo.R;
 import com.example.dribbbleapiservicedemo.model.ShotLikeUser;
+import com.example.dribbbleapiservicedemo.ui.UserInfoActivity;
 import com.example.dribbbleapiservicedemo.utils.CommonUtils;
 import com.example.dribbbleapiservicedemo.utils.DateUtils;
 
@@ -26,7 +30,7 @@ public class QuickShotLikeUserAdapter extends BaseQuickAdapter<ShotLikeUser> {
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ShotLikeUser shotLikeUser) {
+    protected void convert(BaseViewHolder helper, final ShotLikeUser shotLikeUser) {
         ImageView avatar_iv = helper.getView(R.id.avatar_iv);
         Glide.with(mContext).load(shotLikeUser.user.avatar_url).bitmapTransform(new CropCircleTransformation(mContext))
                 .placeholder(R.drawable.ic_account_circle_grey)
@@ -53,6 +57,16 @@ public class QuickShotLikeUserAdapter extends BaseQuickAdapter<ShotLikeUser> {
                 shotLikeUser.user.followers_count));
         helper.setText(R.id.shots_count_tv, String.format(mContext.getString(R.string.user_shots_count),
                         shotLikeUser.user.shots_count));
+
+        helper.getConvertView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, UserInfoActivity.class);
+                intent.putExtra(UserInfoActivity.USER_INFO, shotLikeUser.user);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+            }
+        });
 
     }
 }

@@ -31,7 +31,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-public class ShotDetailActivity extends AppCompatActivity implements BaseQuickAdapter.RequestLoadMoreListener {
+public class ShotDetailActivity extends AppCompatActivity implements BaseQuickAdapter.RequestLoadMoreListener, View.OnClickListener {
 
     private ActivityShotDetailBinding mBinding;
     public static final String SHOT_DATA = "shot_data";
@@ -64,7 +64,10 @@ public class ShotDetailActivity extends AppCompatActivity implements BaseQuickAd
         setSupportActionBar(mBinding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mBinding.contentContainer.likeCountTv.setOnClickListener(new View.OnClickListener() {
+        mBinding.avatarIv.setOnClickListener(this);
+        mBinding.nameTv.setOnClickListener(this);
+
+        mBinding.likeCountTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mShot != null) {
@@ -75,19 +78,19 @@ public class ShotDetailActivity extends AppCompatActivity implements BaseQuickAd
             }
         });
 
-        mBinding.contentContainer.collapseTv.post(new Runnable() {
+        mBinding.collapseTv.post(new Runnable() {
             @Override
             public void run() {
-                int lineCount = mBinding.contentContainer.expandableTv.getLineCount();
-                mBinding.contentContainer.collapseTv.setVisibility(lineCount >= 5 ? View.VISIBLE : View.GONE);
+                int lineCount = mBinding.expandableTv.getLineCount();
+                mBinding.collapseTv.setVisibility(lineCount >= 3 ? View.VISIBLE : View.GONE);
             }
         });
 
-        mBinding.contentContainer.collapseTv.setOnClickListener(new View.OnClickListener() {
+        mBinding.collapseTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mBinding.contentContainer.expandableTv.toggle();
-                mBinding.contentContainer.collapseTv.setText(mBinding.contentContainer.expandableTv.isExpanded()
+                mBinding.expandableTv.toggle();
+                mBinding.collapseTv.setText(mBinding.expandableTv.isExpanded()
                         ? R.string.expand : R.string.collapse);
             }
         });
@@ -159,6 +162,18 @@ public class ShotDetailActivity extends AppCompatActivity implements BaseQuickAd
     }
 
     @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.avatarIv:
+            case R.id.nameTv:
+                Intent intent = new Intent(this, UserInfoActivity.class);
+                intent.putExtra(UserInfoActivity.USER_INFO, mShot.user);
+                startActivity(intent);
+                break;
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
@@ -176,4 +191,5 @@ public class ShotDetailActivity extends AppCompatActivity implements BaseQuickAd
             mSubscribe.unsubscribe();
         }
     }
+
 }

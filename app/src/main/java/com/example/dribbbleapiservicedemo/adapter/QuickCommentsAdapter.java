@@ -4,6 +4,7 @@ import android.text.Html;
 import android.text.Spanned;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.dribbbleapiservicedemo.R;
@@ -14,6 +15,8 @@ import com.example.dribbbleapiservicedemo.utils.DateUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by 青松 on 2016/7/14.
@@ -27,11 +30,8 @@ public class QuickCommentsAdapter extends BaseQuickAdapter<Comment> {
     @Override
     protected void convert(BaseViewHolder helper, Comment comment) {
         ImageView avatarIv = helper.getView(R.id.avatarIv);
-//        Glide.with(mContext).load(comment.user.avatar_url).centerCrop()
-//                .placeholder(R.drawable.ic_account_circle_grey).crossFade().into(avatarIv);
-
-        Picasso.with(mContext).load(comment.user.avatar_url)
-                .transform(new CircleTransform()).placeholder(R.drawable.ic_account_circle_grey)
+        Glide.with(mContext).load(comment.user.avatar_url).bitmapTransform(new CropCircleTransformation(mContext))
+                .placeholder(R.drawable.ic_account_circle_grey)
                 .error(R.drawable.ic_account_circle_grey).into(avatarIv);
 
         helper.setText(R.id.nameTv, comment.user.name);
