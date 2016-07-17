@@ -1,6 +1,5 @@
 package com.example.dribbbleapiservicedemo.adapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
 import android.text.TextUtils;
@@ -52,7 +51,6 @@ public class QuickShotLikeUserAdapter extends BaseQuickAdapter<ShotLikeUser> {
             helper.setVisible(R.id.bio_tv, false);
         }
 
-        helper.setText(R.id.likes_count_tv, shotLikeUser.user.likes_count + "");
         helper.setText(R.id.followers_count_tv, String.format(mContext.getString(R.string.user_follower_count),
                 shotLikeUser.user.followers_count));
         helper.setText(R.id.shots_count_tv, String.format(mContext.getString(R.string.user_shots_count),

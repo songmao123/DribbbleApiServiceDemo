@@ -29,12 +29,12 @@ public class QuickCommentsAdapter extends BaseQuickAdapter<Comment> {
 
     @Override
     protected void convert(BaseViewHolder helper, Comment comment) {
-        ImageView avatarIv = helper.getView(R.id.avatarIv);
+        ImageView avatarIv = helper.getView(R.id.avatar_iv);
         Glide.with(mContext).load(comment.user.avatar_url).bitmapTransform(new CropCircleTransformation(mContext))
                 .placeholder(R.drawable.ic_account_circle_grey)
                 .error(R.drawable.ic_account_circle_grey).into(avatarIv);
 
-        helper.setText(R.id.nameTv, comment.user.name);
+        helper.setText(R.id.name_tv, comment.user.name);
         Spanned spanned = Html.fromHtml(comment.body);
         helper.setText(R.id.commentContentTv, CommonUtils.noTrailingwhiteLines(spanned));
         helper.setText(R.id.timeTv, DateUtils.getNormalFormatTime(comment.created_at));

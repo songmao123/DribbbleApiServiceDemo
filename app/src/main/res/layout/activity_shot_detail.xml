@@ -24,9 +24,6 @@
             name="glide"
             type="com.bumptech.glide.Glide" />
 
-        <variable
-            name="handler"
-            type="com.example.dribbbleapiservicedemo.handler.ClickEventHandler" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -44,10 +41,9 @@
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
+                android:layout_height="wrap_content"
                 app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <ImageView
                     android:id="@+id/headerImageView"
@@ -79,8 +75,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_scrollFlags="scroll|enterAlways">
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -255,13 +250,33 @@
             layout="@layout/content_shot_detail"
             app:shot="@{shot}" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/ic_dialog_email" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:orientation="vertical">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/ic_send_white_24dp"
+                app:fab_colorNormal="@color/colorAccent"
+                app:fab_colorPressed="@color/colorAccent"
+                app:fab_colorRipple="@color/colorAccent"
+                app:fab_elevationCompat="6dp"
+                app:fab_shadowColor="#444"
+                app:fab_size="normal" />
+
+            <include
+                layout="@layout/layout_edit_coment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom" />
+        </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>
 </layout>

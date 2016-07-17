@@ -23,4 +23,7 @@
 
     <color name="colorBackground">#ECEFF1</color>
     <color name="colorRipple">#DBDBDB</color>
+
+    <color name="colorWhite">#fafafa</color>
+    <color name="colorFab">#FF80AB</color>
 </resources>

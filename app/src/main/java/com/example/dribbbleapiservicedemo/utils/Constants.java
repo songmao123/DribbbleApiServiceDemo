@@ -9,12 +9,13 @@ public class Constants {
     public static final String DRIBBBLE_TOKEN_URL = "https://dribbble.com/oauth/";
     public static final String AUTHORIZE_URL = "https://dribbble.com/oauth/authorize";
 
-    public static final String DRIBBBLE_CLIENT_ID = "5b1a322c172b56aaa5544f79eb886a5433580d8a153cc3a313ac73fb9d0a7b32";
-    public static final String DRIBBBLE_CLIENT_SECRET = "9f381d773d0835c37e47d10c858ab5c3f32f3d278b9d52861e0521f170178ec7";
+    public static final String DRIBBBLE_CLIENT_ID = "21e3858cee03a0cbc2d75ddd297b91f22a604a31d92dbff1f4c11b2826db8f52";
+    public static final String DRIBBBLE_CLIENT_SECRET = "085ac670484bf4ffc00aa37c7a57ee4a571a088dae4fb4b02b0af94c907670f6";
     public static final String DRIBBBLE_CLIENT_REDIRECT_URL = "http://sqsong.me";
-    public static final String DRIBBBLE_ACCESS_TOKEN = "4f54af8e002d8ecf0ff31c336ddf791e00552b7c8c3b8a9270aec911fa9ec9ab";
+    public static final String DRIBBBLE_ACCESS_TOKEN = "f9052f07d24aad977a1462c51408aa179e3a582353ac99bbfbc0c1f4a350f598";
     public static final int PER_PAGE_COUNT = 10;
     public static final int ITEM_SPACING_DP = 5;
+    public static final int FAB_SCROLL_OFFSET = 4;
 
     public static final String PARAM_STATE = "state";
     public static final String PARAM_CODE ="code";

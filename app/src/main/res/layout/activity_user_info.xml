@@ -5,6 +5,14 @@
 
     <data>
 
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
+        <import type="com.example.dribbbleapiservicedemo.utils.CommonUtils" />
+
+        <import type="android.text.Html" />
+
         <variable
             name="user"
             type="com.example.dribbbleapiservicedemo.model.User" />
@@ -24,7 +32,7 @@
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapse_toolbar_layout"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="150dp"
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleMarginEnd="64dp"
                 app:expandedTitleMarginStart="48dp"
@@ -50,6 +58,7 @@
                 android:elevation="5dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_account_circle_white"
+                android:transitionName="image"
                 app:imageUrl="@{user.avatar_url}"
                 app:layout_scrollFlags="scroll"
                 app:type="@{1}" />
@@ -66,33 +75,107 @@
                 app:layout_collapseMode="pin"
                 app:theme="@style/ThemeOverlay.AppCompat.Light" />
 
-            <LinearLayout
-                android:id="@+id/content_container"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:gravity="center"
-                android:orientation="vertical"
                 app:layout_collapseMode="pin">
 
-                <TextView
+                <com.andexert.library.RippleView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{user.name}"
-                    android:textColor="@color/colorText_04"
-                    android:textSize="20sp" />
+                    app:rv_centered="true"
+                    app:rv_color="@color/colorRipple">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <ImageView
+                        android:id="@+id/back_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_arrow_left_white_36dp" />
+                </com.andexert.library.RippleView>
+
+                <LinearLayout
+                    android:id="@+id/content_container"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginTop="4dp"
-                    android:text="Here I am with a subtitle"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp" />
-                ​
-            </LinearLayout>
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{user.name}"
+                        android:textColor="@color/colorText_04"
+                        android:textSize="20sp"
+                        android:transitionName="text" />
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginLeft="50dp"
+                            android:layout_marginRight="50dp"
+                            android:layout_marginTop="4dp"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:maxLines="2"
+                            android:text="@{CommonUtils.noTrailingwhiteLines(Html.fromHtml(user.bio))}"
+                            android:textColor="@android:color/white"
+                            android:textSize="16sp"
+                            android:visibility="visible" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginTop="4dp"
+                            android:drawableLeft="@drawable/ic_earth_white_18dp"
+                            android:drawablePadding="3dp"
+                            android:gravity="center"
+                            android:text="Leeds, UK"
+                            android:textColor="@android:color/white"
+                            android:textSize="16sp"
+                            android:visibility="@{TextUtils.isEmpty(user.bio) ? View.VISIBLE : View.GONE}" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_account_check_white_18dp"
+                            android:drawablePadding="3dp"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text='@{String.valueOf(user.followers_count + " Followers")}'
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:drawableLeft="@drawable/ic_image_area_white_18dp"
+                            android:drawablePadding="3dp"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text='@{String.valueOf(user.shots_count + " Shots")}'
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+                    ​
+                </LinearLayout>
+            </RelativeLayout>
         </android.support.design.widget.AppBarLayout>
 
         <!--<include layout="@layout/content_user_info" />-->
@@ -154,13 +237,38 @@
 
         </RelativeLayout>
 
-        <android.support.design.widget.FloatingActionButton
+        <!--<android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/ic_dialog_email" />
+            android:src="@drawable/ic_plus_white_48dp" />-->
+
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/fam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="10dp"
+            app:menu_animationDelayPerItem="10"
+            app:menu_colorNormal="@color/colorAccent"
+            app:menu_colorPressed="@color/colorAccent"
+            app:menu_colorRipple="@color/colorAccent"
+            app:menu_labels_hideAnimation="@anim/jump_to_down"
+            app:menu_labels_showAnimation="@anim/jump_from_down"
+            app:menu_labels_style="@style/MenuLabelsStyle"
+            app:menu_shadowColor="#444">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab22"
+                style="@style/MenuButtonsStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_account_plus_white_24dp"
+                app:fab_label="Follow Me" />
+
+        </com.github.clans.fab.FloatingActionMenu>
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

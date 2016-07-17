@@ -1,5 +1,6 @@
 package com.example.dribbbleapiservicedemo.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -64,6 +65,17 @@ public class ShotLikeUserActivity extends BaseActivity implements BaseQuickAdapt
         setSupportActionBar(mBinding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Shot Like User Lists");
+
+        mBinding.shotLikeUserContainer.shotAuthorTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShotLikeUserActivity.this, UserInfoActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(UserInfoActivity.USER_INFO, mShot.user);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initRecyclerView() {

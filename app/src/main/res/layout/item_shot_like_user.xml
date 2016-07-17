@@ -38,14 +38,16 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/likes_count_tv"
+                android:id="@+id/location_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:drawableLeft="@drawable/ic_heart_grey"
-                android:drawablePadding="3dp"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@drawable/ic_marker_grey"
+                android:drawablePadding="2dp"
+                android:ellipsize="end"
                 android:gravity="center"
-                android:text="12"
+                android:maxLines="1"
+                android:text="Salem, MA"
                 android:textColor="@color/colorText_03"
                 android:textSize="12sp" />
 
@@ -66,19 +68,6 @@
                 android:textColor="@color/colorText_03"
                 android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/location_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:drawableLeft="@drawable/ic_marker_grey"
-                android:drawablePadding="3dp"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:text="Salem, MA"
-                android:textColor="@color/colorText_03"
-                android:textSize="12sp" />
         </LinearLayout>
 
         <TextView

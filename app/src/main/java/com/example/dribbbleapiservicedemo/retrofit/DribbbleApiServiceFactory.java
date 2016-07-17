@@ -1,8 +1,10 @@
 package com.example.dribbbleapiservicedemo.retrofit;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.dribbbleapiservicedemo.utils.Constants;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 
@@ -26,6 +28,8 @@ public class DribbbleApiServiceFactory {
             public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request().newBuilder()
                         .addHeader("Authorization", "Bearer " + accessToken).build();
+//                Response response = chain.proceed(request);
+//                Log.w("sqsong", "Response ----------> " + new Gson().toJson(chain.proceed(request)));
                 return chain.proceed(request);
             }
         }).build();

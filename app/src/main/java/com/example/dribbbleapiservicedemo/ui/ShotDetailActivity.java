@@ -5,12 +5,15 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -31,7 +34,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-public class ShotDetailActivity extends AppCompatActivity implements BaseQuickAdapter.RequestLoadMoreListener, View.OnClickListener {
+public class ShotDetailActivity extends AppCompatActivity implements BaseQuickAdapter.RequestLoadMoreListener,
+        View.OnClickListener, BaseQuickAdapter.OnRecyclerViewItemClickListener {
 
     private ActivityShotDetailBinding mBinding;
     public static final String SHOT_DATA = "shot_data";
@@ -114,10 +118,35 @@ public class ShotDetailActivity extends AppCompatActivity implements BaseQuickAd
         mCommentsAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         mCommentsAdapter.isFirstOnly(true);
         mCommentsAdapter.setOnLoadMoreListener(this);
+        mCommentsAdapter.setOnRecyclerViewItemClickListener(this);
         mCommentsAdapter.openLoadMore(Constants.PER_PAGE_COUNT, true);
         mCommentsAdapter.setLoadingView(getLayoutInflater().inflate(R.layout.layout_loading_progress,
                 (ViewGroup) recyclerView.getParent(), false));
         recyclerView.setAdapter(mCommentsAdapter);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (Math.abs(dy) > Constants.FAB_SCROLL_OFFSET) {
+                    if (dy > 0) {
+                        mBinding.fab.hide(true);
+                    } else {
+                        mBinding.fab.show(true);
+                    }
+                }
+            }
+        });
+
+        mBinding.fab.show(false);
+        mBinding.fab.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mBinding.fab.show(true);
+//                mBinding.fab.setShowAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.show_from_bottom));
+//                mBinding.fab.setHideAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.hide_to_bottom));
+            }
+        }, 2000);
     }
 
     @Override
@@ -166,11 +195,28 @@ public class ShotDetailActivity extends AppCompatActivity implements BaseQuickAd
         switch (v.getId()) {
             case R.id.avatarIv:
             case R.id.nameTv:
+                Pair<View, String> imagePair = new Pair<>((View) mBinding.avatarIv, "image");
+                Pair<View, String> textPair = new Pair<>((View) mBinding.nameTv, "text");
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, imagePair, textPair);
                 Intent intent = new Intent(this, UserInfoActivity.class);
                 intent.putExtra(UserInfoActivity.USER_INFO, mShot.user);
-                startActivity(intent);
+                ActivityCompat.startActivity(this, intent, compat.toBundle());
+
+//                Intent intent = new Intent(this, UserInfoActivity.class);
+//                intent.putExtra(UserInfoActivity.USER_INFO, mShot.user);
+//                startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(View view, int i) {
+        Pair<View, String> imagePair = new Pair<>(view.findViewById(R.id.avatar_iv), "image");
+        Pair<View, String> textPair = new Pair<>(view.findViewById(R.id.name_tv), "text");
+        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, imagePair, textPair);
+        Intent intent = new Intent(this, UserInfoActivity.class);
+        intent.putExtra(UserInfoActivity.USER_INFO, mComments.get(i).user);
+        ActivityCompat.startActivity(this, intent, compat.toBundle());
     }
 
     @Override

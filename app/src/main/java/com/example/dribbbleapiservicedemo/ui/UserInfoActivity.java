@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.dribbbleapiservicedemo.R;
@@ -51,6 +52,7 @@ public class UserInfoActivity extends BaseActivity implements BaseQuickAdapter.R
     private Subscription mSubscription;
     private User mUser;
     private int mMaxScrollSize;
+    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +61,26 @@ public class UserInfoActivity extends BaseActivity implements BaseQuickAdapter.R
 
         getIntentParams();
         initEvents();
+        initMenuAnimation();
         getShotsDatas();
+    }
+
+    private void initMenuAnimation() {
+        mBinding.fam.setMenuButtonShowAnimation(AnimationUtils.loadAnimation(this, R.anim.show_from_bottom));
+        mBinding.fam.setMenuButtonHideAnimation(AnimationUtils.loadAnimation(this, R.anim.hide_to_bottom));
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (Math.abs(dy) > Constants.FAB_SCROLL_OFFSET) {
+                    if (dy > 0) {
+                        mBinding.fam.hideMenu(true);
+                    } else {
+                        mBinding.fam.showMenu(true);
+                    }
+                }
+            }
+        });
     }
 
     private void getIntentParams() {
@@ -80,7 +101,7 @@ public class UserInfoActivity extends BaseActivity implements BaseQuickAdapter.R
         mBinding.appBarLayout.addOnOffsetChangedListener(this);
         mMaxScrollSize = mBinding.appBarLayout.getTotalScrollRange();
 
-        RecyclerView mRecyclerView = mBinding.recyclerView;
+        mRecyclerView = mBinding.recyclerView;
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
         GridItemDecoration decoration = new GridItemDecoration(2, DensityUtil.dip2px(Constants.ITEM_SPACING_DP), true);
@@ -97,14 +118,20 @@ public class UserInfoActivity extends BaseActivity implements BaseQuickAdapter.R
                 (ViewGroup) mRecyclerView.getParent(), false));
         mRecyclerView.setAdapter(mShotsAdapter);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mBinding.backIv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                ActivityCompat.finishAfterTransition(UserInfoActivity.this);
             }
         });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
     }
 
     @Override
@@ -146,46 +173,46 @@ public class UserInfoActivity extends BaseActivity implements BaseQuickAdapter.R
 
     private void getShotsDatas() {
         mSubscription = DribbbleApiServiceFactory.createDribbbleService(null, Constants.DRIBBBLE_ACCESS_TOKEN)
-            .getUserShots(mUser.id, startPage, Constants.PER_PAGE_COUNT).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Subscriber<List<Shot>>() {
-                @Override
-                public void onStart() {
+                .getUserShots(mUser.id, startPage, Constants.PER_PAGE_COUNT).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Shot>>() {
+                    @Override
+                    public void onStart() {
 
-                }
+                    }
 
-                @Override
-                public void onCompleted() {
-                    mBinding.loadingContainer.setVisibility(View.GONE);
-                    Log.i("sqsong", "Request Complete!");
-                }
+                    @Override
+                    public void onCompleted() {
+                        mBinding.loadingContainer.setVisibility(View.GONE);
+                        Log.i("sqsong", "Request Complete!");
+                    }
 
-                @Override
-                public void onError(Throwable e) {
-                    Log.i("sqsong", "Error: " + e.getMessage());
-                }
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("sqsong", "Error: " + e.getMessage());
+                    }
 
-                @Override
-                public void onNext(List<Shot> shots) {
-                    if (startPage == 1) {
-                        if (shots == null || shots.size() < 1) {
-                            mBinding.noShotsTips.setVisibility(View.VISIBLE);
-                        }
-                        mShots.clear();
-                        mShots.addAll(shots);
-                        mShotsAdapter.notifyDataSetChanged();
-                    } else {
-                        if (shots == null || shots.size() < 1) {
-                            mShotsAdapter.notifyDataChangedAfterLoadMore(false);
-                            View view = getLayoutInflater().inflate(R.layout.layout_no_more_data,
-                                    (ViewGroup) mBinding.recyclerView.getParent(), false);
-                            mShotsAdapter.addFooterView(view);
+                    @Override
+                    public void onNext(List<Shot> shots) {
+                        if (startPage == 1) {
+                            if (shots == null || shots.size() < 1) {
+                                mBinding.noShotsTips.setVisibility(View.VISIBLE);
+                            }
+                            mShots.clear();
+                            mShots.addAll(shots);
+                            mShotsAdapter.notifyDataSetChanged();
                         } else {
-                            mShotsAdapter.notifyDataChangedAfterLoadMore(shots, true);
+                            if (shots == null || shots.size() < 1) {
+                                mShotsAdapter.notifyDataChangedAfterLoadMore(false);
+                                View view = getLayoutInflater().inflate(R.layout.layout_no_more_data,
+                                        (ViewGroup) mBinding.recyclerView.getParent(), false);
+                                mShotsAdapter.addFooterView(view);
+                            } else {
+                                mShotsAdapter.notifyDataChangedAfterLoadMore(shots, true);
+                            }
                         }
                     }
-                }
-            });
+                });
     }
 
     @Override

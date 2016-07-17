@@ -36,6 +36,7 @@ import com.example.dribbbleapiservicedemo.ui.ShotDetailActivity;
 import com.example.dribbbleapiservicedemo.utils.Constants;
 import com.example.dribbbleapiservicedemo.utils.DensityUtil;
 import com.example.dribbbleapiservicedemo.utils.GridItemDecoration;
+import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +110,9 @@ public class MainActivity extends BaseActivity
     private void initEvents() {
         Toolbar toolbar = mBinding.appBarMain.toolbar;
         setSupportActionBar(toolbar);
+
+        mBinding.appBarMain.mainContent.progressBar.setIndeterminateDrawable(new FoldingCirclesDrawable.Builder(this).build());
+
         mBinding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -238,14 +242,14 @@ public class MainActivity extends BaseActivity
                 public void onStart() {
                     if (isInit) {
                         isInit = false;
-                        mBinding.appBarMain.mainContent.progressBar.setVisibility(View.VISIBLE);
+                        mBinding.appBarMain.mainContent.loadingContainer.setVisibility(View.VISIBLE);
                     }
                     Log.i("sqsong", "Request Start!");
                 }
 
                 @Override
                 public void onCompleted() {
-                    mBinding.appBarMain.mainContent.progressBar.setVisibility(View.GONE);
+                    mBinding.appBarMain.mainContent.loadingContainer.setVisibility(View.GONE);
                     mSwipLayout.setRefreshing(false);
                     Log.i("sqsong", "Request Complete!");
                 }
