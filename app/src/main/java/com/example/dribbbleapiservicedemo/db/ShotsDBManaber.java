@@ -54,6 +54,7 @@ public class ShotsDBManaber {
                 shot.updated_at = cursor.getString(cursor.getColumnIndex(DBConstants.SHOT_UPDATE_AT));
                 shot.images = queryImage(database, cursor.getInt(cursor.getColumnIndex(DBConstants.SHOT_FK_IMAGE)));
                 shot.user = queryUser(database, cursor.getInt(cursor.getColumnIndex(DBConstants.SHOT_FK_USER)));
+                shotList.add(shot);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,12 +62,12 @@ public class ShotsDBManaber {
             database.close();
         }
         long queryEndTime = System.currentTimeMillis();
-        Log.e("sqsong", "Query Time: " + (queryEndTime - queryStartTime) / 1000 + "s");
+        Log.e("sqsong", "Query Time: " + (queryEndTime - queryStartTime) + "ms");
         return shotList;
     }
 
     public User queryUser(SQLiteDatabase database, int userId) {
-        Cursor cursor = database.query(DBConstants.TABLE_NAME_USERS, null, "id=?", new String[]{userId + ""}, null, null, null);
+        Cursor cursor = database.query(DBConstants.TABLE_NAME_USERS, null, "_id=?", new String[]{userId + ""}, null, null, null);
         User user = new User();
         while (cursor.moveToNext()) {
             user.id = cursor.getInt(cursor.getColumnIndex(DBConstants.USER_ID));
@@ -87,7 +88,7 @@ public class ShotsDBManaber {
     }
 
     public Image queryImage(SQLiteDatabase database, int imageId) {
-        Cursor cursor = database.query(DBConstants.TABLE_NAME_IMAGES, null, "id=?", new String[]{imageId + ""}, null, null, null);
+        Cursor cursor = database.query(DBConstants.TABLE_NAME_IMAGES, null, "_id=?", new String[]{imageId + ""}, null, null, null);
         Image image = new Image();
         while (cursor.moveToNext()) {
             image.hidpi = cursor.getString(cursor.getColumnIndex(DBConstants.IMAGE_HIDPI));
@@ -105,7 +106,7 @@ public class ShotsDBManaber {
             saveShot(shot);
         }
         long saveEndTime = System.currentTimeMillis();
-        Log.e("sqsong", "Save Data Time: " + (saveEndTime - saveStartTime) / 1000 + "s");
+        Log.e("sqsong", "Save Data Time: " + (saveEndTime - saveStartTime) + "ms");
     }
 
     public synchronized void saveShot(Shot shot) {
@@ -154,4 +155,9 @@ public class ShotsDBManaber {
         return database.insert(DBConstants.TABLE_NAME_USERS, null, values);
     }
 
+    public synchronized void deleteOldDatas() {
+        SQLiteDatabase database = mDBHelper.getWritableDatabase();
+        database.delete(DBConstants.TABLE_NAME_SHOTS, null, null);
+        database.close();
+    }
 }

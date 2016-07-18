@@ -46,6 +46,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -67,7 +68,7 @@ public class MainActivity extends BaseActivity
     private User mUserInfo;
     private String oauthAccessToken;
     private int startPage = 1;
-    private boolean isInit = true;
+//    private boolean isInit = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class MainActivity extends BaseActivity
 
         initEvents();
         initRecyclerView();
+        loadDataFromDB();
         getShotsDatas();
     }
 
@@ -200,9 +202,9 @@ public class MainActivity extends BaseActivity
                 break;
         }
         startPage = 1;
-        isInit = true;
         mShots.clear();
         mShotsAdapter.notifyDataSetChanged();
+        mBinding.appBarMain.mainContent.loadingContainer.setVisibility(View.VISIBLE);
         getShotsDatas();
     }
 
@@ -235,19 +237,10 @@ public class MainActivity extends BaseActivity
     }
 
     private void getShotsDatas() {
-        mSubscription = Observable.concat(getShotsFromDBObservable(), getShotsFromNetObservable())
+        mSubscription = getShotsFromNetObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Shot>>() {
-                    @Override
-                    public void onStart() {
-                        if (isInit) {
-                            isInit = false;
-                            mBinding.appBarMain.mainContent.loadingContainer.setVisibility(View.VISIBLE);
-                        }
-                        Log.e("sqsong", "Request Start!");
-                    }
-
                     @Override
                     public void onCompleted() {
                         mBinding.appBarMain.mainContent.loadingContainer.setVisibility(View.GONE);
@@ -266,10 +259,40 @@ public class MainActivity extends BaseActivity
                             mShots.clear();
                             mShots.addAll(shots);
                             mShotsAdapter.notifyDataSetChanged();
-                            saveShotsToDB(shots);
+                            if (shots != null && shots.size() > 0) {
+                                saveShotsToDB(shots);
+                            }
                         } else {
                             mShotsAdapter.notifyDataChangedAfterLoadMore(shots, true);
                         }
+                    }
+                });
+    }
+
+    private void loadDataFromDB() {
+        getShotsFromDBObservable()
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<List<Shot>>() {
+                    @Override
+                    public void onStart() {
+                        mBinding.appBarMain.mainContent.loadingContainer.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        mBinding.appBarMain.mainContent.loadingContainer.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Shot> shots) {
+                        mShots.clear();
+                        mShots.addAll(shots);
+                        mShotsAdapter.notifyDataSetChanged();
                     }
                 });
     }
@@ -284,19 +307,14 @@ public class MainActivity extends BaseActivity
             @Override
             public List<Shot> call(String s) {
                 List<Shot> shots = ShotsDBManaber.getInstance(getApplicationContext()).queryAllShots();
+                Log.e("sqsong", "Query Shots Size: " + shots.size());
                 return shots;
             }
         });
-//        return Observable.create(new Observable.OnSubscribe<List<Shot>>() {
-//            @Override
-//            public void call(Subscriber<? super List<Shot>> subscriber) {
-//                List<Shot> shots = ShotsDBManaber.getInstance(getApplicationContext()).queryAllShots();
-//                subscriber.onNext(shots);
-//            }
-//        });
     }
 
     private void saveShotsToDB(final List<Shot> shots) {
+        ShotsDBManaber.getInstance(getApplicationContext()).deleteOldDatas();
         ShotsDBManaber.getInstance(getApplicationContext()).saveShotLists(shots);
     }
 
