@@ -1,6 +1,5 @@
 package com.example.dribbbleapiservicedemo.adapter;
 
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -32,10 +31,10 @@ public class QuickShotsAdapter extends BaseQuickAdapter<Shot> {
         ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
         layoutParams.height = imageHeight;
 
-        baseViewHolder.setText(R.id.viewCountTv, shot.views_count);
+        baseViewHolder.setText(R.id.viewCountTv, shot.views_count + "");
         baseViewHolder.setText(R.id.titleTv, shot.title);
-        baseViewHolder.setText(R.id.commentCountTv, shot.comments_count);
-        baseViewHolder.setText(R.id.likeCountTv, shot.likes_count);
+        baseViewHolder.setText(R.id.commentCountTv, shot.comments_count + "");
+        baseViewHolder.setText(R.id.likeCountTv, shot.likes_count + "");
         Glide.with(mContext).load(shot.images.normal).centerCrop().crossFade().into(imageView);
     }
 }

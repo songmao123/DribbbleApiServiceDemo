@@ -27,6 +27,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.dribbbleapiservicedemo.adapter.QuickShotsAdapter;
 import com.example.dribbbleapiservicedemo.databinding.ActivityMainBinding;
 import com.example.dribbbleapiservicedemo.databinding.NavHeaderMainBinding;
+import com.example.dribbbleapiservicedemo.db.ShotsDBManaber;
 import com.example.dribbbleapiservicedemo.model.Shot;
 import com.example.dribbbleapiservicedemo.model.User;
 import com.example.dribbbleapiservicedemo.retrofit.DribbbleApiServiceFactory;
@@ -41,12 +42,12 @@ import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
-
-//import com.example.dribbbleapiservicedemo.ui.ShotDetailActivity;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -234,42 +235,69 @@ public class MainActivity extends BaseActivity
     }
 
     private void getShotsDatas() {
-        mSubscription = DribbbleApiServiceFactory.createDribbbleService(null, Constants.DRIBBBLE_ACCESS_TOKEN)
-            .getShots(startPage, Constants.PER_PAGE_COUNT, sort).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Subscriber<List<Shot>>() {
-                @Override
-                public void onStart() {
-                    if (isInit) {
-                        isInit = false;
-                        mBinding.appBarMain.mainContent.loadingContainer.setVisibility(View.VISIBLE);
+        mSubscription = Observable.concat(getShotsFromDBObservable(), getShotsFromNetObservable())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Shot>>() {
+                    @Override
+                    public void onStart() {
+                        if (isInit) {
+                            isInit = false;
+                            mBinding.appBarMain.mainContent.loadingContainer.setVisibility(View.VISIBLE);
+                        }
+                        Log.e("sqsong", "Request Start!");
                     }
-                    Log.i("sqsong", "Request Start!");
-                }
 
-                @Override
-                public void onCompleted() {
-                    mBinding.appBarMain.mainContent.loadingContainer.setVisibility(View.GONE);
-                    mSwipLayout.setRefreshing(false);
-                    Log.i("sqsong", "Request Complete!");
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    Log.i("sqsong", "Error: " + e.getMessage());
-                }
-
-                @Override
-                public void onNext(List<Shot> shots) {
-                    if (startPage == 1) {
-                        mShots.clear();
-                        mShots.addAll(shots);
-                        mShotsAdapter.notifyDataSetChanged();
-                    } else {
-                        mShotsAdapter.notifyDataChangedAfterLoadMore(shots, true);
+                    @Override
+                    public void onCompleted() {
+                        mBinding.appBarMain.mainContent.loadingContainer.setVisibility(View.GONE);
+                        mSwipLayout.setRefreshing(false);
+                        Log.e("sqsong", "Request Complete!");
                     }
-                }
-            });
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("sqsong", "Error: " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<Shot> shots) {
+                        if (startPage == 1) {
+                            mShots.clear();
+                            mShots.addAll(shots);
+                            mShotsAdapter.notifyDataSetChanged();
+                            saveShotsToDB(shots);
+                        } else {
+                            mShotsAdapter.notifyDataChangedAfterLoadMore(shots, true);
+                        }
+                    }
+                });
+    }
+
+    private Observable<List<Shot>> getShotsFromNetObservable() {
+        return DribbbleApiServiceFactory.createDribbbleService(null, Constants.DRIBBBLE_ACCESS_TOKEN)
+                .getShots(startPage, Constants.PER_PAGE_COUNT, sort);
+    }
+
+    private Observable<List<Shot>> getShotsFromDBObservable() {
+        return Observable.just("").map(new Func1<String, List<Shot>>() {
+            @Override
+            public List<Shot> call(String s) {
+                List<Shot> shots = ShotsDBManaber.getInstance(getApplicationContext()).queryAllShots();
+                return shots;
+            }
+        });
+//        return Observable.create(new Observable.OnSubscribe<List<Shot>>() {
+//            @Override
+//            public void call(Subscriber<? super List<Shot>> subscriber) {
+//                List<Shot> shots = ShotsDBManaber.getInstance(getApplicationContext()).queryAllShots();
+//                subscriber.onNext(shots);
+//            }
+//        });
+    }
+
+    private void saveShotsToDB(final List<Shot> shots) {
+        ShotsDBManaber.getInstance(getApplicationContext()).saveShotLists(shots);
     }
 
     @Override
