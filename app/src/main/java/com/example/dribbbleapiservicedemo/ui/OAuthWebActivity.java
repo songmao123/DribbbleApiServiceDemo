@@ -15,6 +15,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.example.dribbbleapiservicedemo.GlobalApplication;
 import com.example.dribbbleapiservicedemo.MainActivity;
 import com.example.dribbbleapiservicedemo.R;
 import com.example.dribbbleapiservicedemo.databinding.ActivityOauthWebBinding;
@@ -69,7 +70,7 @@ public class OAuthWebActivity extends BaseActivity {
             }
         });
 
-        mOauthBinding.webView.setWebChromeClient(new WebChromeClient(){
+        mOauthBinding.webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 if (newProgress < 100) {
@@ -83,7 +84,7 @@ public class OAuthWebActivity extends BaseActivity {
             }
         });
 
-        mOauthBinding.webView.setWebViewClient(new WebViewClient(){
+        mOauthBinding.webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
@@ -117,18 +118,19 @@ public class OAuthWebActivity extends BaseActivity {
 
     private void getTokenAndUserInfo(final String tokenCode) {
         mSubscribe = getTokenObservable(tokenCode).flatMap(new Func1<TokenData, Observable<User>>() {
-            @Override
-            public Observable<User> call(TokenData tokenData) {
-                authAccessToken = tokenData.access_token;
-                mPreferencesHelper.put(Constants.OAUTH_ACCESS_TOKE, authAccessToken);
-                return getUserInfoObservable(authAccessToken);
-            }
-        })
-                .subscribeOn(Schedulers.io()).
-                        observeOn(AndroidSchedulers.mainThread())
+                    @Override
+                    public Observable<User> call(TokenData tokenData) {
+                        authAccessToken = tokenData.access_token;
+                        mPreferencesHelper.put(Constants.OAUTH_ACCESS_TOKE, authAccessToken);
+                        return getUserInfoObservable(authAccessToken);
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<User>() {
                     @Override
                     public void call(User user) {
+                        GlobalApplication.getInstance().setUserInfo(user);
                         Intent intent = new Intent();
                         intent.putExtra(MainActivity.OAUTH_USER_INFO, user);
                         setResult(RESULT_OK, intent);

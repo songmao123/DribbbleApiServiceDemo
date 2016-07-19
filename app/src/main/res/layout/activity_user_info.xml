@@ -125,7 +125,7 @@
                             android:ellipsize="end"
                             android:gravity="center"
                             android:maxLines="2"
-                            android:text="@{CommonUtils.noTrailingwhiteLines(Html.fromHtml(user.bio))}"
+                            android:text='@{CommonUtils.noTrailingwhiteLines(Html.fromHtml(user.bio == null ? "" : user.bio))}'
                             android:textColor="@android:color/white"
                             android:textSize="16sp"
                             android:visibility="visible" />
@@ -138,7 +138,7 @@
                             android:drawableLeft="@drawable/ic_earth_white_18dp"
                             android:drawablePadding="3dp"
                             android:gravity="center"
-                            android:text="Leeds, UK"
+                            android:text="@{user.location}"
                             android:textColor="@android:color/white"
                             android:textSize="16sp"
                             android:visibility="@{TextUtils.isEmpty(user.bio) ? View.VISIBLE : View.GONE}" />

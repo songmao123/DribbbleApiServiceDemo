@@ -4,15 +4,11 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,29 +31,35 @@ import java.util.List;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 public class UserInfoActivity extends BaseActivity implements BaseQuickAdapter.RequestLoadMoreListener,
         BaseQuickAdapter.OnRecyclerViewItemClickListener, AppBarLayout.OnOffsetChangedListener {
 
     public static final String USER_INFO = "user_info";
+    public static final String USER_ID = "user_id";
     private static final int PERCENTAGE_TO_ANIMATE_AVATAR = 40;
-    private boolean mIsAvatarShown = true;
+    private RecyclerView mRecyclerView;
 
     private ActivityUserInfoBinding mBinding;
     private List<Shot> mShots = new ArrayList<>();
-
+    private CompositeSubscription mCompositeSubscription;
     private QuickShotsAdapter mShotsAdapter;
-    private int startPage = 1;
     private Subscription mSubscription;
     private User mUser;
+
+    private int startPage = 1;
+    private boolean mIsAvatarShown = true;
     private int mMaxScrollSize;
-    private RecyclerView mRecyclerView;
+    private int mUserId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_user_info);
+        mCompositeSubscription = new CompositeSubscription();
 
         getIntentParams();
         initEvents();
@@ -87,12 +89,17 @@ public class UserInfoActivity extends BaseActivity implements BaseQuickAdapter.R
         Intent intent = getIntent();
         if (intent != null) {
             mUser = intent.getParcelableExtra(USER_INFO);
+            mUserId = intent.getIntExtra(USER_ID, -1);
+        }
+        if (mUser != null) {
+            mBinding.setUser(mUser);
+            mUserId = mUser.id;
+        } else {
+            getUserInfos(mUserId);
         }
     }
 
     private void initEvents() {
-        mBinding.setUser(mUser);
-
         setSupportActionBar(mBinding.toolbar);
         getSupportActionBar().setTitle("");
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -124,14 +131,6 @@ public class UserInfoActivity extends BaseActivity implements BaseQuickAdapter.R
                 ActivityCompat.finishAfterTransition(UserInfoActivity.this);
             }
         });
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
     }
 
     @Override
@@ -173,7 +172,7 @@ public class UserInfoActivity extends BaseActivity implements BaseQuickAdapter.R
 
     private void getShotsDatas() {
         mSubscription = DribbbleApiServiceFactory.createDribbbleService(null, Constants.DRIBBBLE_ACCESS_TOKEN)
-                .getUserShots(mUser.id, startPage, Constants.PER_PAGE_COUNT).subscribeOn(Schedulers.io())
+                .getUserShots(mUserId, startPage, Constants.PER_PAGE_COUNT).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Shot>>() {
                     @Override
@@ -213,13 +212,30 @@ public class UserInfoActivity extends BaseActivity implements BaseQuickAdapter.R
                         }
                     }
                 });
+        mCompositeSubscription.add(mSubscription);
+    }
+
+    private void getUserInfos(int userId) {
+        Subscription subscribe = DribbbleApiServiceFactory.createDribbbleService(null, Constants.DRIBBBLE_ACCESS_TOKEN)
+                .getUserInfo(userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<User>() {
+                    @Override
+                    public void call(User user) {
+                        if (user != null) {
+                            mBinding.setUser(user);
+                        }
+                    }
+                });
+        mCompositeSubscription.add(subscribe);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mSubscription != null) {
-            mSubscription.unsubscribe();
+        if (mCompositeSubscription != null) {
+            mCompositeSubscription.unsubscribe();
         }
     }
 

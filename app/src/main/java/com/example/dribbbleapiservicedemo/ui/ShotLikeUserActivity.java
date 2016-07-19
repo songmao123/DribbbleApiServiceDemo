@@ -1,6 +1,5 @@
 package com.example.dribbbleapiservicedemo.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -71,7 +70,6 @@ public class ShotLikeUserActivity extends BaseActivity implements BaseQuickAdapt
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ShotLikeUserActivity.this, UserInfoActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(UserInfoActivity.USER_INFO, mShot.user);
                 startActivity(intent);
             }

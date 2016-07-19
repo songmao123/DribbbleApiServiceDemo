@@ -12,4 +12,5 @@
     <string name="expand">Full Text</string>
     <string name="collapse">Collapse</string>
     <string name="title_activity_user_info">UserInfoActivity</string>
+    <string name="title_activity_web_view">WebViewActivity</string>
 </resources>

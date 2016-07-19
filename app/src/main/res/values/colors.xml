@@ -26,4 +26,5 @@
 
     <color name="colorWhite">#fafafa</color>
     <color name="colorFab">#FF80AB</color>
+    <color name="colorRed">#FF0000</color>
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorBg"
@@ -7,18 +8,29 @@
     android:orientation="horizontal"
     android:paddingBottom="10dp"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingRight="16dp"
+    android:paddingTop="10dp">
 
     <EditText
+        android:id="@+id/replay_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:backgroundTint="@color/colorPrimary" />
 
-    <ImageView
+    <com.andexert.library.RippleView
+        rv_centered="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:src="@drawable/ic_send_grey600_36dp" />
+        app:rv_color="@color/colorRipple">
+
+        <ImageView
+            android:id="@+id/replay_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_send_grey600_36dp"
+            android:tint="@color/background_replay_send_tint" />
+    </com.andexert.library.RippleView>
 
 </LinearLayout>

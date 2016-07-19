@@ -41,4 +41,16 @@
         <item name="fab_colorPressed">#AB47BC</item>
         <item name="fab_colorRipple">#BA68C8</item>
     </style>
+
+    <style name="dialog_password">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.6</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>

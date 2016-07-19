@@ -30,7 +30,23 @@
         <activity
             android:name=".ui.UserInfoActivity"
             android:label="@string/title_activity_user_info"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.WebViewActivity"
+            android:label="@string/title_activity_web_view"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="sqsong" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/FinestWebViewTheme.Light"/>
     </application>
 
 </manifest>
