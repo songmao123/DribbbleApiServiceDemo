@@ -1,6 +1,5 @@
 package com.example.dribbbleapiservicedemo.ui;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,14 +15,16 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.example.dribbbleapiservicedemo.GlobalApplication;
-import com.example.dribbbleapiservicedemo.MainActivity;
 import com.example.dribbbleapiservicedemo.R;
 import com.example.dribbbleapiservicedemo.databinding.ActivityOauthWebBinding;
+import com.example.dribbbleapiservicedemo.event.MessageEvent;
 import com.example.dribbbleapiservicedemo.model.TokenData;
 import com.example.dribbbleapiservicedemo.model.User;
 import com.example.dribbbleapiservicedemo.retrofit.DribbbleApiServiceFactory;
 import com.example.dribbbleapiservicedemo.utils.CompatUri;
 import com.example.dribbbleapiservicedemo.utils.Constants;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.net.URLEncoder;
 import java.util.Set;
@@ -131,9 +132,7 @@ public class OAuthWebActivity extends BaseActivity {
                     @Override
                     public void call(User user) {
                         GlobalApplication.getInstance().setUserInfo(user);
-                        Intent intent = new Intent();
-                        intent.putExtra(MainActivity.OAUTH_USER_INFO, user);
-                        setResult(RESULT_OK, intent);
+                        EventBus.getDefault().post(new MessageEvent(user));
                         finish();
                     }
                 });

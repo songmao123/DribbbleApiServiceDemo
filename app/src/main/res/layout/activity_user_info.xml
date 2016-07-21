@@ -261,12 +261,12 @@
             app:menu_shadowColor="#444">
 
             <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fab22"
+                android:id="@+id/follow_fab"
                 style="@style/MenuButtonsStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_account_plus_white_24dp"
-                app:fab_label="Follow Me" />
+                app:fab_label="Following Me" />
 
         </com.github.clans.fab.FloatingActionMenu>
 

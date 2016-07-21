@@ -12,6 +12,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -65,4 +66,16 @@ public interface DribbbleApiService {
     /** 取消喜欢某个shot*/
     @DELETE("shots/{shot_id}/like")
     Observable<Shot> unLikeShot(@Path("shot_id") int shotId);
+
+    /** 检测自己是否有关注该用户*/
+    @GET("users/{user_id}/following/{target_user_id}")
+    Observable<User> checkIfIFollowUser(@Path("user_id") int userId, @Path("target_user_id") int targetUserId);
+
+    /** 关注某个用户*/
+    @PUT("users/{user_id}/follow")
+    Observable<User> followingUser(@Path("user_id") int userId);
+
+    /** 取消关注某个用户*/
+    @DELETE("users/{user_id}/follow")
+    Observable<User> unFollowingUser(@Path("user_id") int userId);
 }

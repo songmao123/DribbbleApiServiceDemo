@@ -28,6 +28,7 @@ import com.example.dribbbleapiservicedemo.adapter.QuickShotsAdapter;
 import com.example.dribbbleapiservicedemo.databinding.ActivityMainBinding;
 import com.example.dribbbleapiservicedemo.databinding.NavHeaderMainBinding;
 import com.example.dribbbleapiservicedemo.db.ShotsDBManaber;
+import com.example.dribbbleapiservicedemo.event.MessageEvent;
 import com.example.dribbbleapiservicedemo.model.Shot;
 import com.example.dribbbleapiservicedemo.model.User;
 import com.example.dribbbleapiservicedemo.retrofit.DribbbleApiServiceFactory;
@@ -38,6 +39,9 @@ import com.example.dribbbleapiservicedemo.utils.Constants;
 import com.example.dribbbleapiservicedemo.utils.DensityUtil;
 import com.example.dribbbleapiservicedemo.utils.GridItemDecoration;
 import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +58,6 @@ public class MainActivity extends BaseActivity
         View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener,
         BaseQuickAdapter.OnRecyclerViewItemClickListener {
 
-    private static final int REQUEST_CODE_OAUTH = 100;
     public static final String OAUTH_USER_INFO = "oauth_user_info";
     private ActivityMainBinding mBinding;
     private SwipeRefreshLayout mSwipLayout;
@@ -67,7 +70,6 @@ public class MainActivity extends BaseActivity
     private User mUserInfo;
     private String oauthAccessToken;
     private int startPage = 1;
-//    private boolean isInit = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +112,7 @@ public class MainActivity extends BaseActivity
     }
 
     private void initEvents() {
+        EventBus.getDefault().register(this);
         Toolbar toolbar = mBinding.appBarMain.toolbar;
         setSupportActionBar(toolbar);
 
@@ -214,24 +217,18 @@ public class MainActivity extends BaseActivity
                     return;
                 }
                 Intent intent = new Intent(this, OAuthWebActivity.class);
-                startActivityForResult(intent, REQUEST_CODE_OAUTH);
+                startActivity(intent);
                 break;
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_CODE_OAUTH) {
-                if (data != null) {
-                    oauthAccessToken = mPreferencesHelper.getString(Constants.OAUTH_ACCESS_TOKE);
-                    mUserInfo = data.getParcelableExtra(OAUTH_USER_INFO);
-                    mNavHeaderBinding.setUser(mUserInfo);
-                    Toast.makeText(MainActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
-                }
-            }
+    @Subscribe
+    public void onMessageEvent(MessageEvent event) {
+        mUserInfo = event.user;
+        if (mUserInfo != null) {
+            mNavHeaderBinding.setUser(mUserInfo);
+            Toast.makeText(MainActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void getShotsDatas() {
@@ -333,6 +330,7 @@ public class MainActivity extends BaseActivity
     }
 
     private boolean isLogin() {
+        oauthAccessToken = mPreferencesHelper.getString(Constants.OAUTH_ACCESS_TOKE);
         return TextUtils.isEmpty(oauthAccessToken) ? false : true;
     }
 
@@ -343,6 +341,7 @@ public class MainActivity extends BaseActivity
         if (mSubscription != null) {
             mSubscription.unsubscribe();
         }
+        EventBus.getDefault().unregister(this);
     }
 
 }

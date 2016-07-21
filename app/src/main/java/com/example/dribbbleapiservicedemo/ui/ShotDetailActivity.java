@@ -29,6 +29,7 @@ import com.example.dribbbleapiservicedemo.model.Comment;
 import com.example.dribbbleapiservicedemo.model.Shot;
 import com.example.dribbbleapiservicedemo.model.User;
 import com.example.dribbbleapiservicedemo.retrofit.DribbbleApiServiceFactory;
+import com.example.dribbbleapiservicedemo.utils.CommonUtils;
 import com.example.dribbbleapiservicedemo.utils.Constants;
 import com.example.dribbbleapiservicedemo.view.ReplayCommentDialog;
 
@@ -133,7 +134,6 @@ public class ShotDetailActivity extends BaseActivity implements BaseQuickAdapter
         mCommentsAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         mCommentsAdapter.isFirstOnly(true);
         mCommentsAdapter.setOnLoadMoreListener(this);
-//        mCommentsAdapter.setOnRecyclerViewItemClickListener(this);
         mCommentsAdapter.openLoadMore(Constants.PER_PAGE_COUNT, true);
         mCommentsAdapter.setLoadingView(getLayoutInflater().inflate(R.layout.layout_loading_progress,
                 (ViewGroup) recyclerView.getParent(), false));
@@ -267,8 +267,7 @@ public class ShotDetailActivity extends BaseActivity implements BaseQuickAdapter
             case R.id.like_ll:
                 oauthAccessToken = mPreferencesHelper.getString(Constants.OAUTH_ACCESS_TOKE);
                 if (TextUtils.isEmpty(oauthAccessToken)) {
-                    Intent loginIntent = new Intent(this, OAuthWebActivity.class);
-                    startActivity(loginIntent);
+                    CommonUtils.startOauthWebActivity(getApplicationContext());
                     Toast.makeText(ShotDetailActivity.this, "Please Login First!", Toast.LENGTH_SHORT).show();
                     return;
                 }
