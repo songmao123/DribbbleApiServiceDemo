@@ -53,4 +53,9 @@
         <item name="android:backgroundDimAmount">0.6</item>
         <item name="android:windowFullscreen">true</item>
     </style>
+
+    <style name="Filter_Pop_Anim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/filter_anim_in</item>
+        <item name="android:windowExitAnimation">@anim/filter_anim_out</item>
+    </style>
 </resources>

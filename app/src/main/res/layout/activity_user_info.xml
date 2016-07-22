@@ -116,6 +116,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:id="@+id/user_bio_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
@@ -124,8 +125,8 @@
                             android:layout_marginTop="4dp"
                             android:ellipsize="end"
                             android:gravity="center"
-                            android:maxLines="2"
-                            android:text='@{CommonUtils.noTrailingwhiteLines(Html.fromHtml(user.bio == null ? "" : user.bio))}'
+                            android:maxLines="3"
+                            android:text='@{CommonUtils.noTrailingwhiteLines(Html.fromHtml(user.bio == null ? "" : user.bio.replace("https://", "sqsong://")))}'
                             android:textColor="@android:color/white"
                             android:textSize="16sp"
                             android:visibility="visible" />

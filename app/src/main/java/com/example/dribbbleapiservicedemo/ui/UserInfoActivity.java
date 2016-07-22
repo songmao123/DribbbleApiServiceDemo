@@ -10,6 +10,7 @@ import android.support.v4.util.Pair;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,6 +110,8 @@ public class UserInfoActivity extends BaseActivity implements BaseQuickAdapter.R
     private void initEvents() {
         setSupportActionBar(mBinding.toolbar);
         getSupportActionBar().setTitle("");
+
+        mBinding.userBioTv.setMovementMethod(LinkMovementMethod.getInstance());
 
         mBinding.appBarLayout.addOnOffsetChangedListener(this);
         mMaxScrollSize = mBinding.appBarLayout.getTotalScrollRange();
@@ -240,6 +243,14 @@ public class UserInfoActivity extends BaseActivity implements BaseQuickAdapter.R
                     public void call(User user) {
                         if (user != null) {
                             mBinding.setUser(user);
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        int code = ((HttpException) (throwable)).code();
+                        if (code == 404) {
+                            Toast.makeText(UserInfoActivity.this, "The User Is Not Exisit!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
