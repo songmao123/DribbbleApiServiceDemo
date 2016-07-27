@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#607D8B</color>
+    <color name="colorPrimaryDark">#455A64</color>
+    <color name="colorAccent">#4CAF50</color>
+
+    <color name="colorGradientMiddle">#78909C</color>
+    <color name="colorGradientStart">#90A4AE</color>
+
+    <color name="colorRefresh">#388E3C</color>
+    <color name="colorRefreshing">#6200EA</color>
+    <color name="colorRefreshComplete">#E91E63</color>
+
+    <color name="colorIconTint">#BBBBBB</color>
+    <color name="colorMoreActionBg">#CC000000</color>
+
+    <color name="colorBg">#F4F4F4</color>
+    <color name="colorLine">#CCCCCC</color>
+    <color name="colorText_01">#444444</color>
+    <color name="colorText_02">#666666</color>
+    <color name="colorText_03">#888888</color>
+    <color name="colorText_04">#60AFDF</color>
+
+    <color name="colorBackground">#ECEFF1</color>
+    <color name="colorRipple">#DBDBDB</color>
+
+    <color name="colorWhite">#fafafa</color>
+    <color name="colorFab">#FF80AB</color>
+    <color name="colorRed">#FF0000</color>
+</resources>
