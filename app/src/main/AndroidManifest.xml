@@ -37,16 +37,21 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="sqsong" />
+
+                <data android:scheme="https" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
-            android:theme="@style/FinestWebViewTheme.Light"/>
+            android:theme="@style/FinestWebViewTheme.Light" />
+        <activity
+            android:name=".ui.LikeUserListsActivity"
+            android:label="@string/title_activity_like_user_lists"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

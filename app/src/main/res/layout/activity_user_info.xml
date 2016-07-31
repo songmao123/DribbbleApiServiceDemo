@@ -103,6 +103,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/user_name_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{user.name}"
@@ -151,6 +152,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/followers_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_account_check_white_18dp"

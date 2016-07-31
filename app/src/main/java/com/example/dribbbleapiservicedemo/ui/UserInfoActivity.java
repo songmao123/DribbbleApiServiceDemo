@@ -151,6 +151,18 @@ public class UserInfoActivity extends BaseActivity implements BaseQuickAdapter.R
 //                mBinding.fam.toggleMenuButton(true);
             }
         });
+
+        mBinding.followersTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Pair<View, String> imagePair = new Pair<>((View)mBinding.avatarIv, "image");
+                Pair<View, String> textPair = new Pair<>((View)mBinding.userNameTv, "text");
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(UserInfoActivity.this, imagePair, textPair);
+                Intent intent = new Intent(UserInfoActivity.this, LikeUserListsActivity.class);
+                intent.putExtra("user_info", mUser);
+                ActivityCompat.startActivity(UserInfoActivity.this, intent, compat.toBundle());
+            }
+        });
     }
 
     @Override
