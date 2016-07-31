@@ -30,7 +30,7 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
-public class LikeUserListsActivity extends AppCompatActivity implements BaseQuickAdapter.RequestLoadMoreListener,
+public class FollowerListsActivity extends AppCompatActivity implements BaseQuickAdapter.RequestLoadMoreListener,
         View.OnClickListener, BaseQuickAdapter.OnRecyclerViewItemClickListener {
 
     private ActivityLikeUserListsBinding mBinding;

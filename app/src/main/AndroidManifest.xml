@@ -49,7 +49,7 @@
             android:screenOrientation="sensor"
             android:theme="@style/FinestWebViewTheme.Light" />
         <activity
-            android:name=".ui.LikeUserListsActivity"
+            android:name=".ui.FollowerListsActivity"
             android:label="@string/title_activity_like_user_lists"
             android:theme="@style/AppTheme"></activity>
     </application>

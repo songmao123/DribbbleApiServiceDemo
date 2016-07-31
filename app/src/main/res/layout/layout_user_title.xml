@@ -25,8 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
-            android:background="@drawable/shape_back_circle_bg"
-            android:padding="5dp"
+            android:background="@drawable/back_ripple_bg"
+            android:padding="8dp"
             android:src="@drawable/ic_arrow_left_white_24dp" />
 
 
@@ -50,7 +50,7 @@
                     android:id="@+id/user_name_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:text="@{user.name}"
                     android:textColor="@color/colorWhite"
                     android:textSize="14sp"
@@ -61,7 +61,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:ellipsize="end"
+                    android:maxLength="20"
+                    android:maxLines="1"
                     android:text="@{user.location}"
                     android:textColor="@color/colorWhite"
                     android:textSize="12sp"

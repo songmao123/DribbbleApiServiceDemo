@@ -42,12 +42,14 @@
 
                 <TextView
                     android:id="@+id/shot_name_tv"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
+                    android:background="@drawable/textview_ripple_bg"
                     android:ellipsize="end"
                     android:maxLines="1"
+                    android:padding="2dp"
                     android:text="@{shot.title}"
                     android:textColor="@color/colorText_01"
                     android:textSize="18sp"
@@ -73,8 +75,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
+                        android:background="@drawable/textview_ripple_bg"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:padding="2dp"
                         android:text="@{shot.user.name}"
                         android:textColor="@color/colorText_04"
                         android:textSize="16sp" />

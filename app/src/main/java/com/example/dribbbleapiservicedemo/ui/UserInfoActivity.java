@@ -158,7 +158,7 @@ public class UserInfoActivity extends BaseActivity implements BaseQuickAdapter.R
                 Pair<View, String> imagePair = new Pair<>((View)mBinding.avatarIv, "image");
                 Pair<View, String> textPair = new Pair<>((View)mBinding.userNameTv, "text");
                 ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(UserInfoActivity.this, imagePair, textPair);
-                Intent intent = new Intent(UserInfoActivity.this, LikeUserListsActivity.class);
+                Intent intent = new Intent(UserInfoActivity.this, FollowerListsActivity.class);
                 intent.putExtra("user_info", mUser);
                 ActivityCompat.startActivity(UserInfoActivity.this, intent, compat.toBundle());
             }
