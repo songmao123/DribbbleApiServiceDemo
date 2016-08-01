@@ -80,19 +80,13 @@
                 android:layout_height="wrap_content"
                 app:layout_collapseMode="pin">
 
-                <com.andexert.library.RippleView
+                <ImageView
+                    android:id="@+id/back_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:rv_centered="true"
-                    app:rv_color="@color/colorRipple">
-
-                    <ImageView
-                        android:id="@+id/back_iv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_arrow_left_white_36dp" />
-                </com.andexert.library.RippleView>
+                    android:background="@drawable/ripple_back_parmary_circle"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_arrow_left_white_36dp" />
 
                 <LinearLayout
                     android:id="@+id/content_container"

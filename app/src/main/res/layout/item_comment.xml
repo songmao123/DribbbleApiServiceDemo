@@ -12,6 +12,7 @@
         android:id="@+id/avatar_iv"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_account_circle_grey" />
 
     <LinearLayout
