@@ -37,33 +37,19 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-<<<<<<< HEAD
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="sqsong" />
-            </intent-filter>
-        </activity>
-
-=======
-
-                <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:scheme="https" />
             </intent-filter>
         </activity>
->>>>>>> master
         <activity
             android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
-<<<<<<< HEAD
-            android:theme="@style/FinestWebViewTheme.Light"/>
-=======
             android:theme="@style/FinestWebViewTheme.Light" />
         <activity
             android:name=".ui.FollowerListsActivity"
             android:label="@string/title_activity_like_user_lists"
             android:theme="@style/AppTheme"></activity>
->>>>>>> master
     </application>
 
 </manifest>

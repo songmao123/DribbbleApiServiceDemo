@@ -12,10 +12,7 @@
         android:id="@+id/avatar_iv"
         android:layout_width="50dp"
         android:layout_height="50dp"
-<<<<<<< HEAD
-=======
         android:background="?attr/selectableItemBackgroundBorderless"
->>>>>>> master
         android:src="@drawable/ic_account_circle_grey" />
 
     <LinearLayout
@@ -29,19 +26,6 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-
-<<<<<<< HEAD
-            <TextView
-                android:id="@+id/name_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="Jonathan Schubert"
-                android:textColor="@color/colorText_04"
-                android:textSize="16sp" />
-=======
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,7 +43,6 @@
                     android:textColor="@color/colorText_04"
                     android:textSize="16sp" />
             </RelativeLayout>
->>>>>>> master
 
             <TextView
                 android:id="@+id/likeCountTv"

@@ -151,8 +151,6 @@ public class UserInfoActivity extends BaseActivity implements BaseQuickAdapter.R
 //                mBinding.fam.toggleMenuButton(true);
             }
         });
-<<<<<<< HEAD
-=======
 
         mBinding.followersTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +163,6 @@ public class UserInfoActivity extends BaseActivity implements BaseQuickAdapter.R
                 ActivityCompat.startActivity(UserInfoActivity.this, intent, compat.toBundle());
             }
         });
->>>>>>> master
     }
 
     @Override

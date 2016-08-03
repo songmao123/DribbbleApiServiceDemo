@@ -1,10 +1,7 @@
 package com.example.dribbbleapiservicedemo.retrofit;
 
 import com.example.dribbbleapiservicedemo.model.Comment;
-<<<<<<< HEAD
-=======
 import com.example.dribbbleapiservicedemo.model.FollowerUser;
->>>>>>> master
 import com.example.dribbbleapiservicedemo.model.Shot;
 import com.example.dribbbleapiservicedemo.model.ShotLikeUser;
 import com.example.dribbbleapiservicedemo.model.TokenData;
@@ -82,11 +79,8 @@ public interface DribbbleApiService {
     /** 取消关注某个用户*/
     @DELETE("users/{user_id}/follow")
     Observable<User> unFollowingUser(@Path("user_id") int userId);
-<<<<<<< HEAD
-=======
 
     /** 获取某个用户的followers*/
     @GET("users/{user_id}/followers")
     Observable<List<FollowerUser>> getFollowers(@Path("user_id") int shotId, @Query("page") int page, @Query("per_page") int perPage);
->>>>>>> master
 }

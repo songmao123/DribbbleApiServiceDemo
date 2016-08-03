@@ -110,64 +110,39 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-<<<<<<< HEAD
-                                android:layout_marginTop="5dp"
-=======
->>>>>>> master
                                 android:clipChildren="false"
                                 android:gravity="center_vertical"
                                 android:orientation="horizontal">
 
-<<<<<<< HEAD
-                                <com.andexert.library.RippleView
-                                    rv_centered="true"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    app:rv_color="@color/colorRipple">
-=======
                                 <RelativeLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1">
->>>>>>> master
 
                                     <TextView
                                         android:id="@+id/nameTv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-<<<<<<< HEAD
-                                        android:ellipsize="end"
-                                        android:maxLines="1"
-=======
                                         android:background="@drawable/textview_ripple_bg"
                                         android:ellipsize="end"
                                         android:maxLines="1"
                                         android:padding="2dp"
->>>>>>> master
                                         android:text="@{shot.user.name}"
                                         android:textColor="@color/colorText_04"
                                         android:textSize="16sp"
                                         android:textStyle="bold" />
-<<<<<<< HEAD
-                                </com.andexert.library.RippleView>
-=======
                                 </RelativeLayout>
->>>>>>> master
 
                                 <LinearLayout
                                     android:id="@+id/like_ll"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="5dp"
-                                    android:clipChildren="false"
-<<<<<<< HEAD
-=======
                                     android:background="@drawable/textview_ripple_bg"
-                                    android:padding="2dp"
->>>>>>> master
+                                    android:clipChildren="false"
                                     android:gravity="center_vertical"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:padding="2dp">
 
                                     <ImageView
                                         android:id="@+id/likeIv"
@@ -192,11 +167,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-<<<<<<< HEAD
-                                android:layout_marginTop="10dp"
-=======
                                 android:layout_marginTop="8dp"
->>>>>>> master
                                 android:gravity="center_vertical"
                                 android:orientation="horizontal">
 
@@ -210,36 +181,20 @@
                                     android:textSize="14sp"
                                     android:textStyle="italic" />
 
-<<<<<<< HEAD
-                                <com.andexert.library.RippleView
-                                    rv_centered="true"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="5dp"
-                                    app:rv_color="@color/colorRipple">
-=======
                                 <RelativeLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content">
->>>>>>> master
 
                                     <TextView
                                         android:id="@+id/likeCountTv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-<<<<<<< HEAD
-                                        android:text='@{String.valueOf(shot.likes_count + " likes")}'
-                                        android:textColor="@color/colorText_03"
-                                        android:textSize="14sp" />
-                                </com.andexert.library.RippleView>
-=======
                                         android:background="@drawable/textview_ripple_bg"
                                         android:padding="2dp"
                                         android:text='@{String.valueOf(shot.likes_count + " likes")}'
                                         android:textColor="@color/colorText_03"
                                         android:textSize="14sp" />
                                 </RelativeLayout>
->>>>>>> master
 
                             </LinearLayout>
                         </LinearLayout>
@@ -254,11 +209,7 @@
                         android:layout_marginTop="5dp"
                         android:ellipsize="end"
                         android:maxLines="3"
-<<<<<<< HEAD
-                        android:text='@{CommonUtils.noTrailingwhiteLines(Html.fromHtml(shot.description.replace("https://", "sqsong://")))}'
-=======
                         android:text='@{CommonUtils.noTrailingwhiteLines(Html.fromHtml(shot.description))}'
->>>>>>> master
                         android:textColor="@color/colorText_02"
                         android:textSize="16sp"
                         android:visibility="@{TextUtils.isEmpty(shot.description) ? View.GONE : View.VISIBLE}"
