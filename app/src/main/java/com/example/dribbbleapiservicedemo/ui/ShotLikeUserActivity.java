@@ -4,6 +4,11 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+<<<<<<< HEAD
+=======
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
+>>>>>>> master
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
@@ -29,7 +34,12 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
+<<<<<<< HEAD
 public class ShotLikeUserActivity extends BaseActivity implements BaseQuickAdapter.RequestLoadMoreListener {
+=======
+public class ShotLikeUserActivity extends BaseActivity implements BaseQuickAdapter.RequestLoadMoreListener,
+        BaseQuickAdapter.OnRecyclerViewItemClickListener {
+>>>>>>> master
 
     public static final String SHOT_INFO = "shot";
     private ActivityShotLikeUserBinding mBinding;
@@ -85,6 +95,10 @@ public class ShotLikeUserActivity extends BaseActivity implements BaseQuickAdapt
         mQuickAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         mQuickAdapter.isFirstOnly(true);
         mQuickAdapter.setOnLoadMoreListener(this);
+<<<<<<< HEAD
+=======
+        mQuickAdapter.setOnRecyclerViewItemClickListener(this);
+>>>>>>> master
         mQuickAdapter.openLoadMore(Constants.PER_PAGE_COUNT, true);
         mQuickAdapter.setLoadingView(getLayoutInflater().inflate(R.layout.layout_loading_progress,
                 (ViewGroup) recyclerView.getParent(), false));
@@ -92,6 +106,19 @@ public class ShotLikeUserActivity extends BaseActivity implements BaseQuickAdapt
     }
 
     @Override
+<<<<<<< HEAD
+=======
+    public void onItemClick(View view, int i) {
+        Pair<View, String> imagePair = new Pair<>(view.findViewById(R.id.avatar_iv), "image");
+        Pair<View, String> textPair = new Pair<>(view.findViewById(R.id.name_tv), "text");
+        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, imagePair, textPair);
+        Intent intent = new Intent(this, UserInfoActivity.class);
+        intent.putExtra(UserInfoActivity.USER_INFO, mShotLikeUsers.get(i).user);
+        ActivityCompat.startActivity(this, intent, compat.toBundle());
+    }
+
+    @Override
+>>>>>>> master
     public void onLoadMoreRequested() {
         startPage++;
         getShotLikeUsers();
@@ -150,4 +177,8 @@ public class ShotLikeUserActivity extends BaseActivity implements BaseQuickAdapt
             mSubscribe.unsubscribe();
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 }

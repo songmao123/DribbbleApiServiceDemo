@@ -80,6 +80,7 @@
                 android:layout_height="wrap_content"
                 app:layout_collapseMode="pin">
 
+<<<<<<< HEAD
                 <com.andexert.library.RippleView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -93,6 +94,15 @@
                         android:padding="10dp"
                         android:src="@drawable/ic_arrow_left_white_36dp" />
                 </com.andexert.library.RippleView>
+=======
+                <ImageView
+                    android:id="@+id/back_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_back_parmary_circle"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_arrow_left_white_36dp" />
+>>>>>>> master
 
                 <LinearLayout
                     android:id="@+id/content_container"
@@ -103,6 +113,10 @@
                     android:orientation="vertical">
 
                     <TextView
+<<<<<<< HEAD
+=======
+                        android:id="@+id/user_name_tv"
+>>>>>>> master
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{user.name}"
@@ -151,8 +165,15 @@
                         android:orientation="horizontal">
 
                         <TextView
+<<<<<<< HEAD
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+=======
+                            android:id="@+id/followers_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/textview_ripple_primary_bg"
+>>>>>>> master
                             android:drawableLeft="@drawable/ic_account_check_white_18dp"
                             android:drawablePadding="3dp"
                             android:gravity="center"

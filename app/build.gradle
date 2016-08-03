@@ -42,6 +42,11 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+<<<<<<< HEAD
+=======
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.4.1'
+>>>>>>> master
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.8.8'
     compile 'com.google.oauth-client:google-oauth-client-java6:1.15.0-rc'
     compile 'com.google.http-client:google-http-client-jackson:1.15.0-rc'
